@@ -21,17 +21,44 @@ exp1_boolean_min.vcd	VCD waveform dump generated during simulation
 
 ## Verilog Program
 
-
+```
+module fun (
+    input A, B,
+    output F
+);
+    assign F = (~A) | B;
+endmodule
+```
 
 ## TestBench Program
 
+```
+module tb;
+    reg A, B;
+    wire F;
+
+    fun uut (
+        .A(A),
+        .B(B),
+        .F(F)
+    );
+
+    initial begin
+        $dumpfile("fun.vcd");
+        $dumpvars(0, tb);
+        $monitor("Time=%0t A=%b B=%b | F=%b", $time, A, B, F);
+
+        A = 0; B = 0; #10;
+        A = 0; B = 1; #10;
+        A = 1; B = 0; #10;
+        A = 1; B = 1; #10;
+        #10 $finish;
+    end
+endmodule
+
+```
 
 
-
-
-
-
-    
 ## Truth Table
  
 <img width="795" height="311" alt="image" src="https://github.com/user-attachments/assets/dd4ba5b9-016b-4ae5-a693-f309c60c4c0e" />
@@ -76,7 +103,8 @@ o	F
 5.	Verify that F = 1 whenever B and D are equal.
 6.	Verify that F = 0 whenever B and D are different.
 The waveform should agree with the truth table.
- 
+ <img width="555" height="146" alt="706176813-54225c93-f0a4-4d10-b069-a61283a3ecc5" src="https://github.com/user-attachments/assets/c599c96c-d4b0-4e1c-b478-8d8798bdaca8" />
+
 ### Expected Result
 The Boolean function
 F(A,B,C,D)=Σm(0,2,5,7,8,10,13,15), which simplifies to F=B'D'+BD.
@@ -85,6 +113,7 @@ and successfully implemented using Verilog HDL.
 
 ## OUTPUT
 
+<img width="1840" height="980" alt="706177243-256e3002-5983-44f9-ad6a-3f457630285a" src="https://github.com/user-attachments/assets/fc4789f8-f69b-4103-a365-2545bbfb7ace" />
 
 
 The design was compiled and simulated using Synopsys VCS, and the functionality was verified using DVE waveform analysis.
@@ -104,6 +133,6 @@ The design was compiled and simulated using Synopsys VCS, and the functionality 
 13.	What is the purpose of $dumpfile?
 14.	What is the purpose of $dumpvars?
 
-Result
+## Result
 Thus, the Boolean function was minimized, implemented using Verilog HDL, successfully simulated using Synopsys VCS, and verified using Synopsys DVE.
 
